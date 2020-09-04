@@ -7,13 +7,44 @@
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",
+    "@tailwindcss/ui": "^0.5.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "chokidar-cli": "^2.1.0",
+    "classnames": "^2.2.6",
+    "npm-run-all": "^4.1.5",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "tailwindcss": "^1.7.6"
   },
   "version": "0.1.0",
   "devDependencies": {
+    "eslint-config-xo": "^0.26.0",
+    "eslint-config-xo-react": "^0.19.0",
     "webpack-dev-server": "^3.11.0"
+  },
+  "xo": {
+    "prettier": true,
+    "extends": "xo-react",
+    "rules": {
+      "unicorn/filename-case": 0
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
+  },
+  "scripts": {
+    "build:tailwind": "tailwind build app/javascript/packs/assets/tailwind.css -o app/javascript/packs/assets/tailwind.output.css",
+    "watch:tailwind": "chokidar 'app/javascript/packs/assets/**/*.css' 'app/javascript/packs/assets/**/*.scss' --ignore src/tailwind.output.css -c 'npm run build:tailwind'",
+    "start": "npm-run-all build:tailwind --parallel watch:tailwind start:react",
+    "start:react": "react-scripts start",
+    "prebuild": "run-s build:tailwind",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   }
 }
